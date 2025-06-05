@@ -1,8 +1,8 @@
-    // main.js – lógica y UI por separado, formato legible
 
-    const MARGIN = 1.5; // cm extra (0,75 por lado)
-    const designs = [];
-
+const MARGIN = 1.5; // cm extra (0,75 por lado)
+const designs = [];
+const LS_KEY = 'dtf-designs';
+const THEME_KEY = 'dtf-theme';
     /* -------- Helpers de interfaz -------- */
     function renderTable() {
     const tbody = document.querySelector('#designTable tbody');
@@ -20,7 +20,44 @@
         tbody.appendChild(tr);
     });
     }
+saveDesigns();
 
+
+function showMessage(msg) {
+    const box = document.getElementById('message');
+    box.textContent = msg;
+    setTimeout(() => {
+        box.textContent = '';
+    }, 3000);
+}
+
+function saveDesigns() {
+    localStorage.setItem(LS_KEY, JSON.stringify(designs));
+}
+
+function loadDesigns() {
+    const stored = localStorage.getItem(LS_KEY);
+    if (stored) {
+        try {
+            const arr = JSON.parse(stored);
+            designs.push(...arr);
+            renderTable();
+        } catch (_) {
+            // ignore parse errors
+        }
+    }
+}
+
+function setTheme(theme) {
+    document.body.classList.toggle('dark', theme === 'dark');
+    localStorage.setItem(THEME_KEY, theme);
+    document.getElementById('toggleTheme').textContent = theme === 'dark' ? '☀️' : '🌙';
+}
+
+function loadTheme() {
+    const stored = localStorage.getItem(THEME_KEY) || 'light';
+    setTheme(stored);
+}
     /* -------- Lógica de negocio -------- */
     function prepareDesigns(arr) {
     const list = [];
@@ -92,6 +129,8 @@
         alert('Añade al menos un diseño');
         return;
     }
+            showMessage('Completa los campos correctamente');
+
 
     const rollWidth = parseFloat(document.querySelector('input[name="roll"]:checked').value);
     const items = prepareDesigns(designs);
@@ -99,3 +138,11 @@
 
     document.getElementById('result').textContent = `Necesitas ≈ ${meters} m de bobina ${rollWidth} cm`;
 });
+
+document.getElementById('toggleTheme').addEventListener('click', () => {
+    const isDark = document.body.classList.contains('dark');
+    setTheme(isDark ? 'light' : 'dark');
+});
+
+loadDesigns();
+loadTheme();
