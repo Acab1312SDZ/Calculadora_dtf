@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Metros DTF</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+    <div class="container">
+        <h1>Calculadora de Metros&nbsp;DTF</h1>
+
+        <div class="form-row">
+        <label>Ancho (cm): <input type="number" id="width" min="0" step="0.1" /></label>
+        <label>Alto (cm): <input type="number" id="height" min="0" step="0.1" /></label>
+        <label>Cantidad: <input type="number" id="quantity" min="1" step="1" value="1" /></label>
+        <button class="add" id="addDesign">Añadir diseño</button>
+        </div>
+
+        <table id="designTable">
+        <thead>
+            <tr>
+            <th>#</th>
+            <th>Ancho (cm)</th>
+            <th>Alto (cm)</th>
+            <th>Cantidad</th>
+            <th></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        </table>
+
+        <div class="actions">
+        <label><input type="radio" name="roll" value="30" checked /> Bobina 30 cm</label>
+        <label><input type="radio" name="roll" value="60" /> Bobina 60 cm</label>
+        <button class="compute" id="compute">Calcular metros</button>
+        </div>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script src="main.js"></script>
+    </body>
+</html>
